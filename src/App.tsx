@@ -21,6 +21,7 @@ export function App() {
 
   const loadAllTransactions = useCallback(async () => {
     setIsLoading(true)
+    transactionsByEmployeeUtils.invalidateData()
     
     await employeeUtils.fetchAll()
     await paginatedTransactionsUtils.fetchAll()
@@ -33,6 +34,7 @@ export function App() {
     async (employeeId: string) => {
       setIsLoading(true)
 
+      paginatedTransactionsUtils.invalidateData()  // Decreases efficiency a little but makes code more robust
       await transactionsByEmployeeUtils.fetchById(employeeId)
       paginatedTransactionsUtils.invalidateData()
       
@@ -81,7 +83,7 @@ export function App() {
         <div className="RampBreak--l" />
 
         <div className="RampGrid">
-          <Transactions transactions={transactions} />
+          <Transactions transactions={transactions} loading={isLoading} />
 
           {transactions !== null && paginatedTransactions !== null && paginatedTransactions.nextPage !== null && (
             <button
