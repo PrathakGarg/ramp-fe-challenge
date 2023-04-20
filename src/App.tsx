@@ -33,16 +33,12 @@ export function App() {
     async (employeeId: string) => {
       setIsLoading(true)
 
-      if (!employeeId)
-        await loadAllTransactions()
-      else {
-        paginatedTransactionsUtils.invalidateData()
-        await transactionsByEmployeeUtils.fetchById(employeeId)
-      }
+      paginatedTransactionsUtils.invalidateData()
+      await transactionsByEmployeeUtils.fetchById(employeeId)
       
       setIsLoading(false)
     },
-    [paginatedTransactionsUtils, transactionsByEmployeeUtils, loadAllTransactions]
+    [paginatedTransactionsUtils, transactionsByEmployeeUtils]
   )
 
   useEffect(() => {
@@ -70,6 +66,11 @@ export function App() {
           })}
           onChange={async (newValue) => {
             if (newValue === null) {
+              return
+            }
+
+            if (newValue.id === EMPTY_EMPLOYEE.id) {
+              await loadAllTransactions()
               return
             }
 
