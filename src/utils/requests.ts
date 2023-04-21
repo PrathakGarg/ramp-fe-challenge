@@ -5,12 +5,13 @@ import {
   SetTransactionApprovalParams,
   Transaction,
   Employee,
+  Data,
 } from "./types"
 import mockData from "../mock-data.json"
 
 const TRANSACTIONS_PER_PAGE = 5
 
-const data: { employees: Employee[]; transactions: Transaction[] } = {
+const data: Data = {
   employees: mockData.employees,
   transactions: mockData.transactions,
 }
